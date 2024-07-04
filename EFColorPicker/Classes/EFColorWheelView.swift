@@ -31,7 +31,7 @@ import CoreGraphics
 public class EFColorWheelView: UIControl {
     
     public var isTouched = false
-    var wheelImage: CGImage?
+    public var wheelImage: CGImage?
 
     // The hue value.
     public var hue: CGFloat = 0.0 {
@@ -58,6 +58,15 @@ public class EFColorWheelView: UIControl {
             }
         }
     }
+    
+    public var color: UIColor {
+        return UIColor(
+            hue: hue,
+            saturation: saturation,
+            brightness: brightness,
+            alpha: 1
+        )
+    }
 
     private lazy var indicatorLayer: CALayer = {
         let dimension: CGFloat = 33
@@ -67,7 +76,7 @@ public class EFColorWheelView: UIControl {
         indicatorLayer.cornerRadius = dimension / 2
         indicatorLayer.borderColor = edgeColor.cgColor
         indicatorLayer.borderWidth = 2
-        indicatorLayer.backgroundColor = UIColor.white.cgColor
+        indicatorLayer.backgroundColor = UIColor.clear.cgColor
         indicatorLayer.bounds = CGRect(x: 0, y: 0, width: dimension, height: dimension)
         indicatorLayer.position = CGPoint(x: self.bounds.width / 2, y: self.bounds.height / 2)
         indicatorLayer.shadowColor = UIColor.black.cgColor
@@ -76,6 +85,9 @@ public class EFColorWheelView: UIControl {
         indicatorLayer.shadowOpacity = 0.5
         return indicatorLayer
     }()
+    
+    private let maskLayer = CAShapeLayer()
+    private let colorMap = CALayer()
 
     override open class var requiresConstraintBasedLayout: Bool {
         return true
@@ -86,8 +98,10 @@ public class EFColorWheelView: UIControl {
 
         accessibilityLabel = "color_wheel_view"
         layer.delegate = self
+        layer.addSublayer(colorMap)
         layer.addSublayer(indicatorLayer)
-
+        
+        colorMap.mask = maskLayer
         // [self setSelectedPoint:CGPointMake(dimension / 2, dimension / 2)];
     }
 
@@ -170,9 +184,20 @@ public class EFColorWheelView: UIControl {
         )
         if let image = self.ef_imageWithRGBAData(data: bitmapData, width: Int(dimension), height: Int(dimension)) {
             wheelImage = image
-            self.layer.contents = wheelImage
+            
+            self.colorMap.frame = mapFrame()
+            self.colorMap.contents = wheelImage
+            
+            let onePixel = 1 / UIScreen.main.scale
+            maskLayer.path = UIBezierPath(ovalIn: colorMap.bounds.insetBy(dx: -onePixel, dy: -onePixel)).cgPath
         }
     }
+    
+    private let borderWidth: CGFloat = 0
+    private func mapFrame() -> CGRect {
+            let mapSize: CGFloat = min(bounds.width, bounds.height) - borderWidth * 2
+            return  CGRect(x: (bounds.width - mapSize)/2, y: (bounds.height - mapSize)/2, width: mapSize, height: mapSize)
+        }
 
     private func ef_selectedPoint() -> CGPoint {
         let dimension = min(frame.width, frame.height)
