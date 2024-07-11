@@ -189,7 +189,7 @@ public class EFColorWheelView: UIControl {
             self.colorMap.contents = wheelImage
             
             let onePixel = 1 / UIScreen.main.scale + 2
-            maskLayer.path = UIBezierPath(ovalIn: colorMap.bounds.insetBy(dx: -onePixel, dy: -onePixel)).cgPath
+            maskLayer.path = UIBezierPath(ovalIn: colorMap.bounds.insetBy(dx: onePixel, dy: onePixel)).cgPath
         }
     }
     
