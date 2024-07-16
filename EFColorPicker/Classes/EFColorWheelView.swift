@@ -125,11 +125,11 @@ public class EFColorWheelView: UIControl {
     override public func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         isTouched = false
         if let position = touches.first?.location(in: self) {
-            onTouchEventWithPosition(point: position)
+            onTouchEventWithPosition(point: position, isEnd: true)
         }
     }
     
-    func onTouchEventWithPosition(point: CGPoint) {
+    func onTouchEventWithPosition(point: CGPoint, isEnd: Bool = false) {
         let radius = self.bounds.width / 2
 
         let mx = Double(radius - point.x)
@@ -144,6 +144,10 @@ public class EFColorWheelView: UIControl {
             saturation = s
             setSelectedPoint(point: point)
             sendActions(for: .valueChanged)
+            
+            if isEnd == true {
+                sendActions(for: .editingDidEnd)
+            }
         }
     }
 
