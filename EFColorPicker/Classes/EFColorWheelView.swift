@@ -69,20 +69,21 @@ public class EFColorWheelView: UIControl {
     }
 
     private lazy var indicatorLayer: CALayer = {
-        let dimension: CGFloat = 33
-        let edgeColor = UIColor(white: 0.9, alpha: 0.8)
+        let dimension: CGFloat = 26
+//        let edgeColor = UIColor(white: 0.9, alpha: 0.8)
+        let edgeColor = UIColor.white
 
         let indicatorLayer = CALayer()
         indicatorLayer.cornerRadius = dimension / 2
         indicatorLayer.borderColor = edgeColor.cgColor
-        indicatorLayer.borderWidth = 2
+        indicatorLayer.borderWidth = 4
         indicatorLayer.backgroundColor = UIColor.clear.cgColor
         indicatorLayer.bounds = CGRect(x: 0, y: 0, width: dimension, height: dimension)
         indicatorLayer.position = CGPoint(x: self.bounds.width / 2, y: self.bounds.height / 2)
-        indicatorLayer.shadowColor = UIColor.black.cgColor
-        indicatorLayer.shadowOffset = CGSize.zero
-        indicatorLayer.shadowRadius = 1
-        indicatorLayer.shadowOpacity = 0.5
+//        indicatorLayer.shadowColor = UIColor.black.cgColor
+//        indicatorLayer.shadowOffset = CGSize.zero
+//        indicatorLayer.shadowRadius = 1
+//        indicatorLayer.shadowOpacity = 0.5
         return indicatorLayer
     }()
     
