@@ -145,10 +145,10 @@ public class EFColorWheelView: UIControl {
             saturation = s
             setSelectedPoint(point: point)
             sendActions(for: .valueChanged)
-            
-            if isEnd == true {
-                sendActions(for: .editingDidEnd)
-            }
+        }
+        
+        if isEnd == true {
+            sendActions(for: .editingDidEnd)
         }
     }
 
