@@ -69,7 +69,7 @@ public class EFColorWheelView: UIControl {
     }
 
     private lazy var indicatorLayer: CALayer = {
-        let dimension: CGFloat = 26
+        let dimension: CGFloat = 20
 //        let edgeColor = UIColor(white: 0.9, alpha: 0.8)
         let edgeColor = UIColor.white
 
